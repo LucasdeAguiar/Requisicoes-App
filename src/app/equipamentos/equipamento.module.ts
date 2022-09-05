@@ -5,6 +5,8 @@ import { EquipamentoRoutingModule } from './equipamento-routing.module';
 import { EquipamentoComponent } from './equipamento.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
-    EquipamentoRoutingModule
+    EquipamentoRoutingModule,
+    ToastrModule,
+    NgxCurrencyModule
+
   ]
 })
 export class EquipamentoModule { }

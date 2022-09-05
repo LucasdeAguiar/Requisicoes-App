@@ -1,6 +1,6 @@
 export class Equipamento{
   id: string;
   nome: string;
-  preco: Number;
+  preco: number;
   data: Date;
 }

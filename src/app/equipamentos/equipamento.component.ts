@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder,FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
@@ -16,7 +17,8 @@ export class EquipamentoComponent implements OnInit {
   constructor(
     private equipamentoService: EquipamentoService,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr  : ToastrService
   ) {};
 
   
@@ -68,16 +70,31 @@ export class EquipamentoComponent implements OnInit {
     else
      await this.equipamentoService.editar(this.form.value);
 
-     console.log(`O equipamento foi salvo com sucesso`)
+     this.showToatrSucess();
 
     }catch(error){
+      this.showToatrError();
       console.log(error);
+      
     }
     
   }
 
   public excluir(equipamento: Equipamento){
      this.equipamentoService.excluir(equipamento);
+     this.showToatrRemove();
+  }
+
+  public showToatrSucess(){
+    this.toastr.success('Cadastro efetuado', 'Sucesso!');
+  }
+
+  public showToatrError(){
+    this.toastr.error('Cadastro não efetuado', 'Opa..');
+  }
+
+  public showToatrRemove(){
+    this.toastr.info('Cadastro removido', '...');
   }
 
 }
