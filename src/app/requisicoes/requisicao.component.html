@@ -1,10 +1,29 @@
 
 <div class="container">
   <div class="row">
+    <div class="col-12 col-md-10 col-lg-9 mx-auto my-4">
+      <div class="btn-group">
+        <button
+        class="btn btn-outline-primary"
+        aria-current="page">
+        <i class="pi pi-ticket me-1"></i>Minhas Requisições
+        </button>
+          <button
+          class="btn btn-outline-primary"><i class="pi pi-inbox me-1"></i>Requisição
+         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="row">
 
     <div class="col-12 col-md-10 col-lg-9 mx-auto">
       <div class="text-center text-md-start">
-        <h1 class="fw-bold text-primary">Requisições</h1>
+        <h1 class="fw-bold text-primary">Minhas Requisições</h1>
       </div>
 
       <div class="d-grid gap-2 d-md-block mt-4">
@@ -28,7 +47,7 @@
       <table class="table table-light table-striped table-hover text-center">
         <thead class="thead-dark text-center">
           <tr>
-            <th>Abertura</th>
+            <th>Data de Abertura</th>
             <th>Departamento</th>
             <th>Descrição</th>
             <th>Equipamento</th>
@@ -37,7 +56,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let requisicao of (requisicoes$ | async)">
-            <td>{{requisicao.data}}</td>
+            <td>{{requisicao.data.toDate() | date: 'dd/MM/yyyy HH:mm'}}</td>
             <td>{{requisicao.departamento?.nome}}</td>
             <td>{{requisicao.descricao}}</td>
             <td>{{requisicao.equipamento?.nome}}</td>
@@ -74,77 +93,55 @@
   
 <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
     <div class="modal-body">
-
-        <div formGroupName="requisicao">
-                <div class="form-group mb-3 position-relative">
-                  <label for="descricao" class="form-label">Descrição</label>
-                  <input formControlName="descricao" 
-                  [ngClass]="(descricao?.touched && descricao?.invalid) ? 'is-invalid' : ''"
-                  class="form-control" 
-                  type="text" 
-                  placeholder="Digite a descrição da requisição">
-                  <div class="invalid-tooltip" *ngIf="descricao?.touched && descricao?.invalid">
-                  <span *ngIf="descricao?.errors?.['required']">A descricao precisa ser preenchido.</span> 
-                  <span *ngIf="descricao?.errors?.['minlength']">A descricao precisa ter no mínimo 3 letras.</span> 
-                  </div>
-              </div>
-        
-            <div class="form-group mb-3 position-relative">
-              <label for="data" class="form-label">Data</label>
-              <input formControlName="data" 
-              [ngClass]="(data?.touched && data?.invalid) ? 'is-invalid' : ''"
-              class="form-control" 
-              type="date" 
-              placeholder="Digite o email do funcionário">
-              <div class="invalid-tooltip" *ngIf="data?.touched && data?.invalid">
-                <span *ngIf="data?.errors?.['required']">A data precisa ser preenchida.</span> 
-              </div>
-            </div>
-        
-        
-          <div class="form-group mb-3 position-relative">
-              <label for="departamentoId" class="form-label">Departamento</label>
-              <ng-select formControlName="departamentoId" 
-              [ngClass]="(departamentoId?.touched && departamentoId?.invalid) ? 'is-invalid' : ''"
-              [clearable]="false" 
-              [searchable]="false">
-                  <ng-option 
-                  *ngFor="let departamento of (departamentos$ | async)" 
-                  [value]="departamento.id">
-                  {{departamento.nome}}
-                  </ng-option>
-              </ng-select>
-              <div class="invalid-tooltip" *ngIf="departamentoId?.touched && departamentoId?.invalid">
-                <span *ngIf="departamentoId?.errors?.['required']">O departamento precisa ser selecionado .</span> 
-                </div>
-            </div> 
-
-            <div class="form-group mb-3 position-relative">
-              <label for="equipamentoId" class="form-label">Equipamento</label>
-              <ng-select formControlName="equipamentoId" 
-              [ngClass]="(equipamentoId?.touched && equipamentoId?.invalid) ? 'is-invalid' : ''"
-              [clearable]="false" 
-              [searchable]="false">
-                  <ng-option 
-                  *ngFor="let equipamento of (equipamentos$ | async)" 
-                  [value]="equipamento.id">
-                  {{equipamento.nome}}
-                  </ng-option>
-              </ng-select>
-              <div class="invalid-tooltip" *ngIf="equipamentoId?.touched && equipamentoId?.invalid">
-                <span *ngIf="equipamentoId?.errors?.['required']">O equipamento precisa ser selecionado .</span> 
-                </div>
-            </div> 
-        </div>
-
-       
       
 
+                <div class="form-group mb-3 position-relative">
+                  <label for="departamentoId" class="form-label">Departamento destino</label>
+                  <ng-select 
+                  placeholder="Selecione um departamento"
+                  formControlName="departamentoId" 
+                  [clearable]="false" 
+                  [searchable]="false">
+                      <ng-option 
+                      *ngFor="let departamento of (departamentos$ | async)" 
+                      [value]="departamento.id">{{departamento.nome}}</ng-option>
+                  </ng-select>
+                </div> 
+
+
+                <div class="form-group mb-3 position-relative">
+                  <label for="equipamentoId" class="form-label">Equipamento (Opcional)</label>
+                  <ng-select formControlName="equipamentoId" 
+                  placeholder="Selecione um equipamento"
+                  [clearable]="false" 
+                  [searchable]="false">
+                      <ng-option 
+                      *ngFor="let equipamento of (equipamentos$ | async)" 
+                      [value]="equipamento.id">
+                      {{equipamento.nome}}
+                      </ng-option>
+                  </ng-select>
+                </div> 
+
+        
+                <div class="form-group mb-3 position-relative">
+                  <label for="descricao" class="form-label">Descrição</label>
+                  <textarea formControlName="descricao" 
+                  class="form-control" 
+                  type="text" 
+                  placeholder="Digite a descrição da requisição"></textarea>
+                </div>
+        
+        
+        
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark col-md-3" (click)="modal.dismiss('fechar')">
+            Cancelar</button>
+          <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Gravar</button>
+        </div>
+
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark col-md-3" (click)="modal.dismiss('fechar')">
-        Cancelar</button>
-      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Gravar</button>
-    </div>
+    
 </form>
 </ng-template>
