@@ -82,5 +82,14 @@ public selecionarTodos(): Observable<Requisicao[]> {
       })
     )
  }
+
+ public selecionarRequisicoesPorDepartamentoId(departamentoId : string){
+  return this.selecionarTodos()
+   .pipe(
+     map(requisicoes => {
+       return requisicoes.filter(req => req.departamentoId === departamentoId);
+     })
+   )
+}
  
 }
