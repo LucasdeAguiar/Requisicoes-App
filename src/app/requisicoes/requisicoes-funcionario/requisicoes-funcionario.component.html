@@ -41,10 +41,19 @@
             <td>{{requisicao.descricao}}</td>
             <td>{{requisicao.equipamento?.nome}}</td>
             <td class="d-grid d-md-block">
+             
+              <button 
+              [routerLink]="['/requisicoes', requisicao.id]"
+              type="button"
+              class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+              <i class="pi pi-tags"></i>
+            </button> 
+             
+             
               <button
                 (click)="gravar(modal, requisicao)"
                 type="button"
-                class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+                class="btn btn-outline-primary  me-0 me-md-1 mb-1 mb-md-auto">
                 <i class="pi pi-user-edit"></i>
               </button>
 

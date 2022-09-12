@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RequisicoesFuncionarioComponent } from './requisicoes-funcionario/requisicoes-funcionario.component';
 import { RequisicoesDepartamentoComponent } from './requisicoes-departamento/requisicoes-departamento.component';
+import { DetalhesComponent } from './detalhes/detalhes.component';
 
 
 
@@ -14,7 +15,8 @@ import { RequisicoesDepartamentoComponent } from './requisicoes-departamento/req
   declarations: [
     RequisicaoComponent,
     RequisicoesFuncionarioComponent,
-    RequisicoesDepartamentoComponent
+    RequisicoesDepartamentoComponent,
+    DetalhesComponent
   ],
   imports: [
     CommonModule,
