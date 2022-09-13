@@ -39,7 +39,7 @@
             <td>{{equipamento.id}}</td>
             <td>{{equipamento.nome}}</td>
             <td>{{equipamento.preco | currency:'BRL'}}</td>
-            <td>{{equipamento.data | date:'yyyy/mm/dd'}}</td>
+            <td>{{equipamento.data | date:'yyyy/MM/dd'}}</td>
             <td class="d-grid d-md-block">
               <button
                 (click)="gravar(modal, equipamento)"
@@ -94,16 +94,21 @@
      <div class="form-group mb-3">
       <label for="data" class="form-label">Data do Equipamento</label>
       <input formControlName="data" 
+      [ngClass]="(data?.touched && data?.invalid) ? 'is-invalid' : ''"
       class="form-control" 
       type="date" 
       placeholder="Digite a data do equipamento">
+      <div class="invalid-tooltip" *ngif="data?.touched && data?.invalid">
+           <span *ngIf="data?.errors?.['required']">A data de fabricação precisa ser preenchida</span>
+           <span *ngIf="data?.errors?.['datafutura']">A data de fabricação não pode exceder hoje.</span>
+      </div>
    </div>
 
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark col-md-3" (click)="modal.dismiss('fechar')">
         Cancelar</button>
-      <button type="submit" class="btn btn-primary col-md-3">Gravar</button>
+      <button type="submit"  [disabled]="this.form.invalid" class="btn btn-primary col-md-3">Gravar</button>
     </div>
 </form>
 </ng-template>

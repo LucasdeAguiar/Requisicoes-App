@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder,FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { dataFuturaValidator } from '../shared/validators/data-futura.validators';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
 
@@ -29,7 +30,7 @@ export class EquipamentoComponent implements OnInit {
       id: new FormControl(""),
       nome: new FormControl(""),
       preco: new FormControl(""),
-      data: new FormControl("")
+      data: new FormControl("", [Validators.required, dataFuturaValidator()])
     });
   }
 
@@ -51,7 +52,7 @@ export class EquipamentoComponent implements OnInit {
     return this.form.get("preco");
   }
 
-  get data(){
+  get data(): AbstractControl | null {
     return this.form.get("data");
   }
 
