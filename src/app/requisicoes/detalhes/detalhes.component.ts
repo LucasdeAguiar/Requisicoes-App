@@ -14,8 +14,6 @@ export class DetalhesComponent implements OnInit {
 
   ngOnInit(): void {
     this.requisicao = this.route.snapshot.data['requisicao'];
-
-    console.log(this.requisicao);
   }
 
 }
