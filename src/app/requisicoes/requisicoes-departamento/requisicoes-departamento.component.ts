@@ -87,17 +87,14 @@ export class RequisicoesDepartamentoComponent implements OnInit {
    
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
-
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
 
 
     this.authService.usuarioLogado.subscribe(usuario => {
       const email = usuario?.email!;
 
       this.processoAutenticado$ = this.funcionarioService.selecionarFuncionarioLogado(email)
-      .subscribe(funcionario => {
-        this.funcionarioLogado = funcionario;
-        this.requisicoes$ = this.requisicaoService.selecionarRequisicoesPorDepartamentoId(funcionario.departamentoId);
-      });
+      .subscribe(funcionario =>  this.funcionarioLogado = funcionario);
     })
 
   }

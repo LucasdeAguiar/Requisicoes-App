@@ -9,6 +9,7 @@ import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { DepartamentoService } from 'src/app/departamentos/services/departamento.service';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { EquipamentoService } from 'src/app/equipamentos/services/equipamento.service';
+import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
 import { Requisicao } from '../models/requisicao.model';
 import { RequisicaoService } from '../service/requisicao.service';
@@ -24,7 +25,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   public equipamentos$: Observable<Equipamento[]>;
   private processoAutenticado$: Subscription ;
 
-  public funcionarioLogadoId: string;
+  public funcionarioLogado: Funcionario;
   public form: FormGroup;
   
 
@@ -103,17 +104,14 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
    
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
-
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
 
 
     this.authService.usuarioLogado.subscribe(usuario => {
       const email = usuario?.email!;
 
       this.processoAutenticado$ = this.funcionarioService.selecionarFuncionarioLogado(email)
-      .subscribe(funcionario => {
-        this.funcionarioLogadoId = funcionario.id;
-        this.requisicoes$ = this.requisicaoService.selecionarRequisicoesFuncionarioAtual(this.funcionarioLogadoId);
-      });
+      .subscribe(funcionario => this.funcionarioLogado = funcionario);
     })
 
   }
@@ -189,7 +187,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
         this.form.get("data")?.setValue(new Date());
         this.form.get("ultimaAtualizacao")?.setValue(new Date());
         this.form.get("equipamentoId")?.setValue(null);
-        this.form.get("funcionarioId")?.setValue(this.funcionarioLogadoId);
+        this.form.get("funcionarioId")?.setValue(this.funcionarioLogado.id);
       }
 
       
